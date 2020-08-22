@@ -1,0 +1,13 @@
+{
+    "name": "science_off",
+    "version": "1.0.0",
+    "title": "Science Off",
+    "author": "Muppet9010",
+    "contact": "",
+    "homepage": "https://mods.factorio.com/mod/science_off",
+    "factorio_version": "1.0",
+    "dependencies": [
+        "base >= 1.0"
+    ],
+    "description": "Competitive science usage comptetition"
+}
