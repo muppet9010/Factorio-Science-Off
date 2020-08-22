@@ -1,13 +1,16 @@
 local ScienceUsage = require("scripts/science_usage")
 local EventScheduler = require("utility/event-scheduler")
+local Gui = require("scripts/gui")
 
 local function CreateGlobals()
     ScienceUsage.CreateGlobals()
+    Gui.CreateGlobals()
 end
 
 local function OnLoad()
     --Any Remote Interface registration calls can go in here or in root of control.lua
     ScienceUsage.OnLoad()
+    Gui.OnLoad()
 end
 
 local function OnSettingChanged(event)
@@ -22,6 +25,7 @@ local function OnStartup()
     OnSettingChanged(nil)
 
     ScienceUsage.OnStartup()
+    Gui.OnStartup()
 end
 
 script.on_init(OnStartup)

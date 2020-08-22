@@ -1,6 +1,7 @@
 local ScienceUsage = {}
 local EventScheduler = require("utility/event-scheduler")
 local Logging = require("utility/logging")
+local Interfaces = require("utility/interfaces")
 
 ScienceUsage.CreateGlobals = function()
     global.scienceUsage = global.scienceUsage or {}
@@ -34,6 +35,8 @@ end
 
 ScienceUsage.OnLoad = function()
     EventScheduler.RegisterScheduledEventType("PollAllProductionStatistics", ScienceUsage.PollAllProductionStatistics)
+    Interfaces.RegisterInterface("ScienceUsage.GetPlayerForceTable", ScienceUsage.GetPlayerForceTable)
+    Interfaces.RegisterInterface("ScienceUsage.GetPackPointValue", ScienceUsage.GetPackPointValue)
 end
 
 ScienceUsage.OnStartup = function()
@@ -51,6 +54,7 @@ end
 
 ScienceUsage.PollForceProducitonStatistics = function(forceTable, tick)
     local force = forceTable.force
+    local scienceUsed = false
     for packName, pointsValue in pairs(global.scienceUsage.pointValues) do
         local currentValue = force.item_production_statistics.get_output_count(packName)
         local countInSecond = currentValue - (forceTable.scienceUsedTotalLastSecond[packName] or 0)
@@ -63,9 +67,29 @@ ScienceUsage.PollForceProducitonStatistics = function(forceTable, tick)
             forceTable.pointsHistory[tick][packName] = pointsGained
             forceTable.pointsTotal = forceTable.pointsTotal + pointsGained
             force.item_production_statistics.on_flow("coin", -pointsGained)
-            Logging.Log(serpent.block(forceTable))
+            scienceUsed = true
+        --Logging.Log(serpent.block(forceTable))
         end
         forceTable.scienceUsedTotalLastSecond[packName] = currentValue
+    end
+    if scienceUsed then
+        Interfaces.Call("Gui.UpdateScoreForForcesPlayers", force)
+    end
+end
+
+ScienceUsage.GetPlayerForceTable = function(player)
+    if global.scienceUsage.forces[player.force.index] ~= nil then
+        return global.scienceUsage.forces[player.force.index]
+    else
+        error("No force science data for players force index: " .. player.force.index)
+    end
+end
+
+ScienceUsage.GetPackPointValue = function(packPrototype)
+    if global.scienceUsage.pointValues[packPrototype] ~= nil then
+        return global.scienceUsage.pointValues[packPrototype]
+    else
+        error("No science pack point value for pack type: " .. packPrototype)
     end
 end
 
