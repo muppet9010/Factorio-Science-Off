@@ -37,6 +37,7 @@ ScienceUsage.OnLoad = function()
     EventScheduler.RegisterScheduledEventType("ScienceUsage.PollAllProductionStatistics", ScienceUsage.PollAllProductionStatistics)
     Interfaces.RegisterInterface("ScienceUsage.GetPlayerForceTable", ScienceUsage.GetPlayerForceTable)
     Interfaces.RegisterInterface("ScienceUsage.GetPackPointValue", ScienceUsage.GetPackPointValue)
+    Interfaces.RegisterInterface("ScienceUsage.GetAllForcesPointTotals", ScienceUsage.GetAllForcesPointTotals)
 end
 
 ScienceUsage.OnStartup = function()
@@ -46,6 +47,9 @@ ScienceUsage.OnStartup = function()
 end
 
 ScienceUsage.PollAllProductionStatistics = function(event)
+    if Interfaces.Call("State.IsGameFinished") then
+        return
+    end
     EventScheduler.ScheduleEvent(event.tick + 60, "ScienceUsage.PollAllProductionStatistics")
     for _, forceTable in pairs(global.scienceUsage.forces) do
         ScienceUsage.PollForceProducitonStatistics(forceTable, event.tick)
@@ -80,7 +84,7 @@ ScienceUsage.GetPlayerForceTable = function(player)
     if global.scienceUsage.forces[player.force.index] ~= nil then
         return global.scienceUsage.forces[player.force.index]
     else
-        error("No force science data for players force index: " .. player.force.index)
+        error("No force science usage data for player and force: " .. player.name .. " - " .. player.force.name)
     end
 end
 
@@ -90,6 +94,14 @@ ScienceUsage.GetPackPointValue = function(packPrototype)
     else
         error("No science pack point value for pack type: " .. packPrototype)
     end
+end
+
+ScienceUsage.GetAllForcesPointTotals = function()
+    local forcesPoints = {}
+    for _, forceTable in pairs(global.scienceUsage.forces) do
+        forcesPoints[forceTable.force] = forceTable.pointsTotal
+    end
+    return forcesPoints
 end
 
 return ScienceUsage

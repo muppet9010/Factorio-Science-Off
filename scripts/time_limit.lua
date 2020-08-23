@@ -22,7 +22,7 @@ TimeLimit.OnStartUp = function()
 end
 
 TimeLimit.CheckTimeLimit = function()
-    if Interfaces.Call("State.IsGameFinished") then
+    if Interfaces.Call("State.IsGameFinished") or global.timeLimit.maxTicks == 0 then
         return
     end
     global.timeLimit.currentTick = game.tick
@@ -42,7 +42,7 @@ TimeLimit.GetTicksRemaining = function()
     if global.timeLimit.maxTicks == 0 then
         return nil
     end
-    return global.timeLimit.maxTicks - global.timeLimit.currentTick
+    return math.max(global.timeLimit.maxTicks - global.timeLimit.currentTick, 0) -- don't go negative as messes up time displays.
 end
 
 return TimeLimit

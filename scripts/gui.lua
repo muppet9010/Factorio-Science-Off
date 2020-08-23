@@ -17,8 +17,8 @@ Gui.OnLoad = function()
     Events.RegisterHandler(defines.events.on_player_joined_game, "Gui.OnPlayerJoined", Gui.OnPlayerJoined)
     Events.RegisterEvent(defines.events.on_lua_shortcut)
     Events.RegisterHandler(defines.events.on_lua_shortcut, "Gui.OnLuaShortcut", Gui.OnLuaShortcut)
-    Interfaces.RegisterInterface("Gui.ShowFinalScoreAllPlayers", Gui.ShowFinalScoreAllPlayers)
     Interfaces.RegisterInterface("Gui.UpdateTimeRemainingAllPlayers", Gui.UpdateTimeRemainingAllPlayers)
+    Events.RegisterHandler("GameFinished", "Gui.ShowEndGameTextAllPlayers", Gui.ShowEndGameTextAllPlayers)
 end
 
 Gui.OnStartup = function()
@@ -33,10 +33,13 @@ end
 
 Gui.RecreatePlayer = function(player)
     GuiUtil.DestroyPlayersReferenceStorage(player.index, "score")
-    if not global.gui.playerScoreOpen[player.index] then
+    if not global.gui.playerScoreOpen[player.index] and not Interfaces.Call("State.IsGameFinished") then
         return
     end
     Gui.OpenScoreForPlayer(player)
+    if Interfaces.Call("State.IsGameFinished") then
+        Gui.CreateEndGameTextForPlayer(player)
+    end
 end
 
 Gui.RecreateAllPlayers = function()
@@ -80,8 +83,9 @@ Gui.CreateScoreForPlayer = function(player)
                     style = "muppet_flow_vertical_marginTL",
                     children = {
                         {
+                            name = "score_title",
                             type = "label",
-                            caption = {"gui-caption.science_off-score_title-label"},
+                            caption = "self",
                             style = "muppet_label_heading_large_bold"
                         },
                         {
@@ -114,6 +118,13 @@ Gui.CreateScoreForPlayer = function(player)
                             style = "muppet_label_text_large",
                             storeName = "score",
                             exclude = Interfaces.Call("TimeLimit.GetTicksRemaining") == nil
+                        },
+                        {
+                            name = "point_target",
+                            type = "label",
+                            caption = {"self", Utils.DisplayNumberPretty(Interfaces.Call("PointLimit.GetPointLimit"))},
+                            style = "muppet_label_text_large",
+                            exclude = Interfaces.Call("PointLimit.GetPointLimit") == 0
                         },
                         {
                             name = "sciences",
@@ -154,7 +165,6 @@ Gui.UpdateScoreForPlayer = function(player)
     GuiUtil.DestroyElementInPlayersReferenceStorage(playerIndex, "score", "sciences", "table")
     local sciencePackGuiElements = {}
     for packPrototypeName, packCount in pairs(forceScienceUsage.scienceUsedTotal) do
-        --local packValue = Interfaces.Call("ScienceUsage.GetPackPointValue", packPrototypeName)
         table.insert(
             sciencePackGuiElements,
             {
@@ -167,15 +177,6 @@ Gui.UpdateScoreForPlayer = function(player)
                 }
             }
         )
-        -- removed as made GUI very messy and would have needed headings on table
-        --[[table.insert(
-            sciencePackGuiElements,
-            {
-                type = "label",
-                caption = packValue,
-                style = "muppet_label_text_medium"
-            }
-        )--]]
         table.insert(
             sciencePackGuiElements,
             {
@@ -184,15 +185,6 @@ Gui.UpdateScoreForPlayer = function(player)
                 style = "muppet_label_text_medium"
             }
         )
-        -- removed as made GUI very messy and would have needed headings on table
-        --[[table.insert(
-            sciencePackGuiElements,
-            {
-                type = "label",
-                caption = (packCount * packValue),
-                style = "muppet_label_text_medium"
-            }
-        )--]]
     end
     if #sciencePackGuiElements > 0 then
         GuiUtil.UpdateElementFromPlayersReferenceStorage(playerIndex, "score", "sciences", "frame", {visible = true}, false)
@@ -234,8 +226,58 @@ Gui.UpdateTimeRemainingPlayer = function(player, remainingTicks)
     GuiUtil.UpdateElementFromPlayersReferenceStorage(playerIndex, "score", "time_remaining", "label", {caption = {"self", Utils.DisplayTimeOfTicks(remainingTicks, "hour", "second")}}, false)
 end
 
-Gui.ShowFinalScoreAllPlayers = function(event)
-    --TODO: do the final full screen score for all connected players at the end.
+Gui.ShowEndGameTextAllPlayers = function()
+    for _, player in pairs(game.connected_players) do
+        Gui.ShowEndGameTextFoPlayer(player)
+    end
+end
+
+Gui.ShowEndGameTextFoPlayer = function(player)
+    Gui.CloseScoreForPlayer(player)
+    Gui.OpenScoreForPlayer(player)
+    Gui.CreateEndGameTextForPlayer(player)
+end
+
+Gui.CreateEndGameTextForPlayer = function(player)
+    GuiUtil.AddElement(
+        {
+            parent = player.gui.center,
+            name = "end_game",
+            type = "frame",
+            style = "muppet_frame_main_marginTL_paddingBR",
+            storeName = "end_game",
+            children = {
+                {
+                    type = "flow",
+                    direction = "vertical",
+                    style = "muppet_flow_vertical_marginTL",
+                    styling = {
+                        width = 400
+                    },
+                    children = {
+                        {
+                            name = "end_game_title",
+                            type = "label",
+                            caption = "self",
+                            style = "muppet_label_heading_large_bold"
+                        },
+                        {
+                            name = "end_game_info_message1",
+                            type = "label",
+                            caption = "self",
+                            style = "muppet_label_text_medium"
+                        },
+                        {
+                            name = "end_game_info_message2",
+                            type = "label",
+                            caption = "self",
+                            style = "muppet_label_text_medium"
+                        }
+                    }
+                }
+            }
+        }
+    )
 end
 
 return Gui

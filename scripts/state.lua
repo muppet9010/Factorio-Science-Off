@@ -14,8 +14,8 @@ State.OnLoad = function()
 end
 
 State.GameFinished = function()
-    game.print("time reached")
     global.state.finished = true
+    game.speed = 0.01
 end
 
 State.IsGameFinished = function()
