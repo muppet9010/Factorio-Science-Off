@@ -574,6 +574,7 @@ function Utils.DisplayNumberPretty(number)
 end
 
 function Utils.DisplayTimeOfTicks(inputTicks, displayLargestTimeUnit, displaySmallestTimeUnit)
+    -- display time units: hour, minute, second
     if inputTicks == nil then
         return ""
     end

@@ -1,10 +1,11 @@
 data:extend(
     {
         {
-            name = "XXXX",
-            type = "bool-setting",
-            default_value = true,
-            setting_type = "runtime-global",
+            name = "science_off-time_limit",
+            type = "int-setting",
+            default_value = 60,
+            minimum_value = 0,
+            setting_type = "startup",
             order = "1001"
         }
     }

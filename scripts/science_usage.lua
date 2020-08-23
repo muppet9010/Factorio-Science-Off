@@ -1,6 +1,6 @@
 local ScienceUsage = {}
 local EventScheduler = require("utility/event-scheduler")
-local Logging = require("utility/logging")
+--local Logging = require("utility/logging")
 local Interfaces = require("utility/interfaces")
 
 ScienceUsage.CreateGlobals = function()
@@ -34,19 +34,19 @@ ScienceUsage.CreateForceUsedTable = function(force)
 end
 
 ScienceUsage.OnLoad = function()
-    EventScheduler.RegisterScheduledEventType("PollAllProductionStatistics", ScienceUsage.PollAllProductionStatistics)
+    EventScheduler.RegisterScheduledEventType("ScienceUsage.PollAllProductionStatistics", ScienceUsage.PollAllProductionStatistics)
     Interfaces.RegisterInterface("ScienceUsage.GetPlayerForceTable", ScienceUsage.GetPlayerForceTable)
     Interfaces.RegisterInterface("ScienceUsage.GetPackPointValue", ScienceUsage.GetPackPointValue)
 end
 
 ScienceUsage.OnStartup = function()
-    if not EventScheduler.IsEventScheduled("PollAllProductionStatistics") then
-        EventScheduler.ScheduleEvent(game.tick + 60, "PollAllProductionStatistics")
+    if not EventScheduler.IsEventScheduled("ScienceUsage.PollAllProductionStatistics") then
+        EventScheduler.ScheduleEvent(game.tick + 60, "ScienceUsage.PollAllProductionStatistics")
     end
 end
 
 ScienceUsage.PollAllProductionStatistics = function(event)
-    EventScheduler.ScheduleEvent(event.tick + 60, "PollAllProductionStatistics")
+    EventScheduler.ScheduleEvent(event.tick + 60, "ScienceUsage.PollAllProductionStatistics")
     for _, forceTable in pairs(global.scienceUsage.forces) do
         ScienceUsage.PollForceProducitonStatistics(forceTable, event.tick)
     end
@@ -68,7 +68,6 @@ ScienceUsage.PollForceProducitonStatistics = function(forceTable, tick)
             forceTable.pointsTotal = forceTable.pointsTotal + pointsGained
             force.item_production_statistics.on_flow("coin", -pointsGained)
             scienceUsed = true
-        --Logging.Log(serpent.block(forceTable))
         end
         forceTable.scienceUsedTotalLastSecond[packName] = currentValue
     end

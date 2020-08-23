@@ -2,8 +2,7 @@ local Interfaces = require("utility/interfaces")
 local Events = require("utility/events")
 local GuiUtil = require("utility/gui-util")
 --local Logging = require("utility/logging")
-local Colors = require("utility/colors")
-local GuiActionsClick = require("utility/gui-actions-click")
+--local Colors = require("utility/colors")
 local Utils = require("utility/utils")
 local Gui = {}
 
@@ -19,6 +18,7 @@ Gui.OnLoad = function()
     Events.RegisterEvent(defines.events.on_lua_shortcut)
     Events.RegisterHandler(defines.events.on_lua_shortcut, "Gui.OnLuaShortcut", Gui.OnLuaShortcut)
     Interfaces.RegisterInterface("Gui.ShowFinalScoreAllPlayers", Gui.ShowFinalScoreAllPlayers)
+    Interfaces.RegisterInterface("Gui.UpdateTimeRemainingAllPlayers", Gui.UpdateTimeRemainingAllPlayers)
 end
 
 Gui.OnStartup = function()
@@ -108,6 +108,14 @@ Gui.CreateScoreForPlayer = function(player)
                             }
                         },
                         {
+                            name = "time_remaining",
+                            type = "label",
+                            caption = {"self", ""},
+                            style = "muppet_label_text_large",
+                            storeName = "score",
+                            exclude = Interfaces.Call("TimeLimit.GetTicksRemaining") == nil
+                        },
+                        {
                             name = "sciences",
                             type = "frame",
                             direction = "vertical",
@@ -124,6 +132,7 @@ Gui.CreateScoreForPlayer = function(player)
         }
     )
     Gui.UpdateScoreForPlayer(player)
+    Gui.UpdateTimeRemainingPlayer(player, Interfaces.Call("TimeLimit.GetTicksRemaining"))
 end
 
 Gui.UpdateScoreForForcesPlayers = function(force)
@@ -209,6 +218,20 @@ Gui.OnLuaShortcut = function(event)
         local player = game.get_player(event.player_index)
         Gui.ToggleScoreForPlayer(player)
     end
+end
+
+Gui.UpdateTimeRemainingAllPlayers = function(remainingTicks)
+    for _, player in pairs(game.connected_players) do
+        Gui.UpdateTimeRemainingPlayer(player, remainingTicks)
+    end
+end
+
+Gui.UpdateTimeRemainingPlayer = function(player, remainingTicks)
+    local playerIndex = player.index
+    if not global.gui.playerScoreOpen[playerIndex] or Interfaces.Call("TimeLimit.GetTicksRemaining") == nil then
+        return
+    end
+    GuiUtil.UpdateElementFromPlayersReferenceStorage(playerIndex, "score", "time_remaining", "label", {caption = {"self", Utils.DisplayTimeOfTicks(remainingTicks, "hour", "second")}}, false)
 end
 
 Gui.ShowFinalScoreAllPlayers = function(event)

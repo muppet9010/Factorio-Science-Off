@@ -1,15 +1,21 @@
 local ScienceUsage = require("scripts/science_usage")
 local EventScheduler = require("utility/event-scheduler")
 local Gui = require("scripts/gui")
+local TimeLimit = require("scripts/time_limit")
+local State = require("scripts/state")
 
 local function CreateGlobals()
+    State.CreateGlobals()
     ScienceUsage.CreateGlobals()
+    TimeLimit.CreateGlobals()
     Gui.CreateGlobals()
 end
 
 local function OnLoad()
     --Any Remote Interface registration calls can go in here or in root of control.lua
+    State.OnLoad()
     ScienceUsage.OnLoad()
+    TimeLimit.OnLoad()
     Gui.OnLoad()
 end
 
@@ -25,6 +31,7 @@ local function OnStartup()
     OnSettingChanged(nil)
 
     ScienceUsage.OnStartup()
+    TimeLimit.OnStartUp()
     Gui.OnStartup()
 end
 
