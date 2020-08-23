@@ -10,13 +10,13 @@ ScienceUsage.CreateGlobals = function()
     global.scienceUsage.pointValues =
         global.scienceUsage.pointValues or
         {
-            ["automation-science-pack"] = 10,
-            ["logistic-science-pack"] = 30,
-            ["military-science-pack"] = 60,
-            ["chemical-science-pack"] = 100,
-            ["production-science-pack"] = 340,
-            ["utility-science-pack"] = 380,
-            ["space-science-pack"] = 800
+            ["automation-science-pack"] = 1,
+            ["logistic-science-pack"] = 3,
+            ["military-science-pack"] = 6,
+            ["chemical-science-pack"] = 10,
+            ["production-science-pack"] = 34,
+            ["utility-science-pack"] = 38,
+            ["space-science-pack"] = 80
         }
 end
 

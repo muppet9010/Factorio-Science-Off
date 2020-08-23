@@ -4,6 +4,7 @@ local GuiUtil = require("utility/gui-util")
 --local Logging = require("utility/logging")
 local Colors = require("utility/colors")
 local GuiActionsClick = require("utility/gui-actions-click")
+local Utils = require("utility/utils")
 local Gui = {}
 
 Gui.CreateGlobals = function()
@@ -139,7 +140,7 @@ Gui.UpdateScoreForPlayer = function(player)
         return
     end
     local forceScienceUsage = Interfaces.Call("ScienceUsage.GetPlayerForceTable", player)
-    GuiUtil.UpdateElementFromPlayersReferenceStorage(playerIndex, "score", "score_points", "label", {caption = {"self", forceScienceUsage.pointsTotal}}, false)
+    GuiUtil.UpdateElementFromPlayersReferenceStorage(playerIndex, "score", "score_points", "label", {caption = {"self", Utils.DisplayNumberPretty(forceScienceUsage.pointsTotal)}}, false)
 
     GuiUtil.DestroyElementInPlayersReferenceStorage(playerIndex, "score", "sciences", "table")
     local sciencePackGuiElements = {}
@@ -170,7 +171,7 @@ Gui.UpdateScoreForPlayer = function(player)
             sciencePackGuiElements,
             {
                 type = "label",
-                caption = "x " .. packCount,
+                caption = "x " .. Utils.DisplayNumberPretty(packCount),
                 style = "muppet_label_text_medium"
             }
         )
