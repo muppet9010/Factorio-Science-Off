@@ -16,3 +16,5 @@ Concept: Time limited race to complete the highest total value of research.
 - Made to support multiple forces on a map, but hardcoded to just use the default "player" one at present.
 
 - Copy Utils back to repo to catch anything missed.
+
+{"scienceUsedHistory":{"960":{"automation-science-pack":4},"1560":{"automation-science-pack":4}},"scienceUsedTotal":{"automation-science-pack":8},"pointsTotal":8,"endTimeTick":1560}

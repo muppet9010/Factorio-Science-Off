@@ -4,6 +4,7 @@ local GuiUtil = require("utility/gui-util")
 --local Logging = require("utility/logging")
 --local Colors = require("utility/colors")
 local Utils = require("utility/utils")
+local GuiActionsClick = require("utility/gui-actions-click")
 local Gui = {}
 
 Gui.CreateGlobals = function()
@@ -19,6 +20,8 @@ Gui.OnLoad = function()
     Events.RegisterHandler(defines.events.on_lua_shortcut, "Gui.OnLuaShortcut", Gui.OnLuaShortcut)
     Interfaces.RegisterInterface("Gui.UpdateTimeRemainingAllPlayers", Gui.UpdateTimeRemainingAllPlayers)
     Events.RegisterHandler("GameFinished", "Gui.ShowEndGameTextAllPlayers", Gui.ShowEndGameTextAllPlayers)
+    GuiActionsClick.MonitorGuiClickActions()
+    GuiActionsClick.LinkGuiClickActionNameToFunction("getPlayersForceUsageData", Gui.GetPlayersForceUsageDataButtonClicked)
 end
 
 Gui.OnStartup = function()
@@ -242,18 +245,18 @@ Gui.CreateEndGameTextForPlayer = function(player)
     GuiUtil.AddElement(
         {
             parent = player.gui.center,
-            name = "end_game",
             type = "frame",
             style = "muppet_frame_main_marginTL_paddingBR",
-            storeName = "end_game",
             children = {
                 {
+                    name = "end_game",
                     type = "flow",
                     direction = "vertical",
                     style = "muppet_flow_vertical_marginTL",
                     styling = {
                         width = 400
                     },
+                    storeName = "end_game",
                     children = {
                         {
                             name = "end_game_title",
@@ -272,9 +275,43 @@ Gui.CreateEndGameTextForPlayer = function(player)
                             type = "label",
                             caption = "self",
                             style = "muppet_label_text_medium"
+                        },
+                        {
+                            name = "get_force_usage_data",
+                            type = "button",
+                            caption = "self",
+                            registerClick = {
+                                actionName = "getPlayersForceUsageData"
+                            },
+                            style = "muppet_button_text_medium"
                         }
                     }
                 }
+            }
+        }
+    )
+end
+
+Gui.GetPlayersForceUsageDataButtonClicked = function(event)
+    local player, playerIndex = game.get_player(event.playerIndex), event.playerIndex
+    local forceTable = Interfaces.Call("ScienceUsage.GetPlayerForceTable", player)
+    local jsonData = Interfaces.Call("ScienceUsage.GetUsageDataJsonForForceTable", forceTable)
+
+    GuiUtil.DestroyElementInPlayersReferenceStorage(playerIndex, "end_game", "data_export", "text-box")
+    GuiUtil.AddElement(
+        {
+            parent = GuiUtil.GetElementFromPlayersReferenceStorage(playerIndex, "end_game", "end_game", "flow"),
+            name = "data_export",
+            type = "text-box",
+            text = jsonData,
+            style = "muppet_textbox_content_shadowSunken",
+            styling = {
+                height = 100,
+                width = 400
+            },
+            attributes = {
+                word_wrap = true,
+                read_only = true
             }
         }
     )

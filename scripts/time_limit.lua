@@ -12,6 +12,8 @@ end
 TimeLimit.OnLoad = function()
     EventScheduler.RegisterScheduledEventType("TimeLimit.CheckTimeLimit", TimeLimit.CheckTimeLimit)
     Interfaces.RegisterInterface("TimeLimit.GetTicksRemaining", TimeLimit.GetTicksRemaining)
+    Interfaces.RegisterInterface("TimeLimit.GetCurrentTime", TimeLimit.GetCurrentTime)
+    Events.RegisterHandler("GameFinished", "TimeLimit.OnGameFinished", TimeLimit.OnGameFinished)
 end
 
 TimeLimit.OnStartUp = function()
@@ -43,6 +45,15 @@ TimeLimit.GetTicksRemaining = function()
         return nil
     end
     return math.max(global.timeLimit.maxTicks - global.timeLimit.currentTick, 0) -- don't go negative as messes up time displays.
+end
+
+TimeLimit.OnGameFinished = function()
+    -- Used to handle games when there is no time limit mod setting value so this twhole module is idle, but the final tick of game finish is needed.
+    global.timeLimit.currentTick = game.tick
+end
+
+TimeLimit.GetCurrentTime = function()
+    return global.timeLimit.currentTick
 end
 
 return TimeLimit

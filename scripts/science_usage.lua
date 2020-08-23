@@ -38,6 +38,7 @@ ScienceUsage.OnLoad = function()
     Interfaces.RegisterInterface("ScienceUsage.GetPlayerForceTable", ScienceUsage.GetPlayerForceTable)
     Interfaces.RegisterInterface("ScienceUsage.GetPackPointValue", ScienceUsage.GetPackPointValue)
     Interfaces.RegisterInterface("ScienceUsage.GetAllForcesPointTotals", ScienceUsage.GetAllForcesPointTotals)
+    Interfaces.RegisterInterface("ScienceUsage.GetUsageDataJsonForForceTable", ScienceUsage.GetUsageDataJsonForForceTable)
 end
 
 ScienceUsage.OnStartup = function()
@@ -70,7 +71,7 @@ ScienceUsage.PollForceProducitonStatistics = function(forceTable, tick)
             forceTable.pointsHistory[tick] = forceTable.pointsHistory[tick] or {}
             forceTable.pointsHistory[tick][packName] = pointsGained
             forceTable.pointsTotal = forceTable.pointsTotal + pointsGained
-            force.item_production_statistics.on_flow("coin", -pointsGained)
+            force.item_production_statistics.on_flow("science_off-points", -pointsGained)
             scienceUsed = true
         end
         forceTable.scienceUsedTotalLastSecond[packName] = currentValue
@@ -102,6 +103,16 @@ ScienceUsage.GetAllForcesPointTotals = function()
         forcesPoints[forceTable.force] = forceTable.pointsTotal
     end
     return forcesPoints
+end
+
+ScienceUsage.GetUsageDataJsonForForceTable = function(forceTable)
+    local object = {
+        scienceUsedHistory = forceTable.scienceUsedHistory,
+        scienceUsedTotal = forceTable.scienceUsedTotal,
+        pointsTotal = forceTable.pointsTotal,
+        endTimeTick = Interfaces.Call("TimeLimit.GetCurrentTime")
+    }
+    return game.table_to_json(object)
 end
 
 return ScienceUsage
