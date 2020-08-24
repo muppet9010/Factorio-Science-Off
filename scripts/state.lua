@@ -15,7 +15,16 @@ end
 
 State.GameFinished = function()
     global.state.finished = true
-    game.speed = 0.01
+    for _, surface in pairs(game.surfaces) do
+        for _, entity in pairs(surface.find_entities()) do
+            entity.active = false
+        end
+        surface.always_day = true
+    end
+    for _, player in pairs(game.connected_players) do
+        player.set_controller {type = defines.controllers.ghost}
+        player.spectator = true
+    end
 end
 
 State.IsGameFinished = function()

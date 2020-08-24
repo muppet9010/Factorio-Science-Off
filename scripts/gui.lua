@@ -145,6 +145,7 @@ Gui.CreateScoreForPlayer = function(player)
                             direction = "vertical",
                             style = "muppet_frame_content_shadowSunken",
                             styling = {top_margin = 2},
+                            exclude = Interfaces.Call("TimeLimit.GetTicksRemaining") == nil and Interfaces.Call("PointLimit.GetPointLimit") == 0,
                             children = {
                                 {
                                     name = "time_remaining",
@@ -286,7 +287,7 @@ end
 Gui.CreateEndGameTextForPlayer = function(player)
     GuiUtil.AddElement(
         {
-            parent = player.gui.center,
+            parent = player.gui.left,
             type = "frame",
             style = "muppet_frame_main_marginTL_paddingBR",
             children = {
