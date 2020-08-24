@@ -117,7 +117,7 @@ ScienceUsage.GetUsageDataJsonForForceTable = function(forceTable)
         scienceUsedHistory = forceTable.scienceUsedHistory,
         scienceUsedTotal = forceTable.scienceUsedTotal,
         pointsTotal = forceTable.pointsTotal,
-        endTimeTick = Interfaces.Call("TimeLimit.GetCurrentTime")
+        endTimeTick = global.scienceUsage.currentTick
     }
     return game.table_to_json(object)
 end

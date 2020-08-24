@@ -13,6 +13,8 @@ Concept: Time limited race to complete the highest total value of research.
 
 - Allow a way to export science data from a run and import it via command/mod setting to load ghost target and production data.
 
+- Change the finished game state to freeze labs, rather than the whole game speed.
+
 - Made to support multiple forces on a map, but hardcoded to just use the default "player" one at present.
 
 - Copy Utils back to repo to catch anything missed.

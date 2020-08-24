@@ -93,6 +93,13 @@ Gui.CreateScoreForPlayer = function(player)
                             style = "muppet_label_heading_large_bold"
                         },
                         {
+                            name = "time_current",
+                            type = "label",
+                            caption = {"self", 0},
+                            style = "muppet_label_text_large",
+                            storeName = "score"
+                        },
+                        {
                             type = "frame",
                             direction = "vertical",
                             style = "muppet_frame_content_shadowSunken",
@@ -121,11 +128,15 @@ Gui.CreateScoreForPlayer = function(player)
                                     }
                                 },
                                 {
-                                    name = "time_current",
-                                    type = "label",
-                                    caption = {"self", 0},
-                                    style = "muppet_label_text_large",
-                                    storeName = "score"
+                                    name = "sciences",
+                                    type = "frame",
+                                    direction = "vertical",
+                                    style = "muppet_frame_contentInnerDark_shadowSunken",
+                                    storeName = "score",
+                                    styling = {horizontally_stretchable = true},
+                                    attributes = {
+                                        visible = false
+                                    }
                                 }
                             }
                         },
@@ -133,6 +144,7 @@ Gui.CreateScoreForPlayer = function(player)
                             type = "frame",
                             direction = "vertical",
                             style = "muppet_frame_content_shadowSunken",
+                            styling = {top_margin = 2},
                             children = {
                                 {
                                     name = "time_remaining",
@@ -149,17 +161,6 @@ Gui.CreateScoreForPlayer = function(player)
                                     style = "muppet_label_text_large",
                                     exclude = Interfaces.Call("PointLimit.GetPointLimit") == 0
                                 }
-                            }
-                        },
-                        {
-                            name = "sciences",
-                            type = "frame",
-                            direction = "vertical",
-                            style = "muppet_frame_content",
-                            storeName = "score",
-                            styling = {horizontally_stretchable = true},
-                            attributes = {
-                                visible = false
                             }
                         }
                     }

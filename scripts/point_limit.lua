@@ -9,7 +9,7 @@ end
 
 PointLimit.OnLoad = function()
     Interfaces.RegisterInterface("PointLimit.GetPointLimit", PointLimit.GetPointLimit)
-    if global.timeLimit.maxTicks > 0 then
+    if global.pointLimit.maxPoints > 0 then
         Events.RegisterHandler("CheckNow", "PointLimit.CheckPointLimit", PointLimit.CheckPointLimit)
     end
 end
