@@ -1,7 +1,13 @@
-- Maybe show the target run science, time, points on an optiona shown GUI under the main one?
+- Maybe show the target run science, time, points on an optional GUI under the main one? So it can be raced in real time current total, plus on the production graph.
 
-- Made to support multiple forces on a map, but hardcoded to just use the default "player" one at present.
+- Readme
 
 - Copy Utils back to repo to catch anything missed.
+
+
+
+
+
+- Made to support multiple forces on a map, but hardcoded to just use the default "player" one at present.
 
 {"scienceUsedHistory":{"1261":{"automation-science-pack":4},"1861":{"automation-science-pack":4}},"scienceUsedTotal":{"automation-science-pack":8},"pointsTotal":8,"endTimeTick":1861}

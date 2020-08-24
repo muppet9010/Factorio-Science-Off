@@ -3,7 +3,6 @@ local EventScheduler = require("utility/event-scheduler")
 --local Logging = require("utility/logging")
 local Interfaces = require("utility/interfaces")
 local Events = require("utility/events")
-local Utils = require("utility/utils")
 
 ScienceUsage.CreateGlobals = function()
     global.scienceUsage = global.scienceUsage or {}

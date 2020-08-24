@@ -254,37 +254,19 @@ styleData.GeneratePrototypes = function()
     end
 
     --TEXT BOX - set width & height setting when using as base game has values that can't be nil'd
-    for _, graphic in pairs(
-        {
-            {"_main", {base = {position = {0, 0}, corner_size = 8}}, 0, 0},
-            {"_main_shadowSunken", {base = {position = {0, 0}, corner_size = 8}, shadow = frameShadowSunken()}, 2, 0},
-            {"_main_shadowRisen", {base = {position = {0, 0}, corner_size = 8}, shadow = frameShadowRisen()}, 0, 2},
-            {"_content", {base = {position = {68, 0}, corner_size = 8}}, 0, 0},
-            {"_content_shadowSunken", {base = {position = {68, 0}, corner_size = 8}, shadow = frameShadowSunken()}, 2, 0},
-            {"_content_shadowRisen", {base = {position = {68, 0}, corner_size = 8}, shadow = frameShadowRisen()}, 0, 2},
-            {"_contentInnerDark", {base = {position = {34, 0}, corner_size = 8}}, 0, 0},
-            {"_contentInnerDark_shadowSunken", {base = {position = {34, 0}, corner_size = 8}, shadow = frameShadowSunken()}, 2, 0},
-            {"_contentInnerDark_shadowRisen", {base = {position = {34, 0}, corner_size = 8}, shadow = frameShadowRisen()}, 0, 2},
-            {"_contentInnerLight", {base = {position = {0, 17}, corner_size = 8}}, 0, 0},
-            {"_contentInnerLight_shadowSunken", {base = {position = {0, 17}, corner_size = 8}, shadow = frameShadowSunken()}, 2, 0},
-            {"_contentInnerLight_shadowRisen", {base = {position = {0, 17}, corner_size = 8}, shadow = frameShadowRisen()}, 0, 2}
-        }
-    ) do
-        for _, margin in pairs({{"", 0, 0, 0, 0}, {"_marginTL", 4, 4, 0, 0}}) do
-            for _, padding in pairs({{"", 0, 0, 0, 0}, {"_paddingBR", 0, 0, 4, 4}}) do
-                defaultStyle["muppet_textbox" .. graphic[1] .. margin[1] .. padding[1] .. styleData.styleVersion] = {
-                    type = "textbox_style",
-                    left_margin = margin[2] + graphic[3],
-                    top_margin = margin[3] + graphic[3],
-                    right_margin = margin[4] + graphic[3],
-                    bottom_margin = margin[5] + graphic[3],
-                    left_padding = padding[2] + graphic[4],
-                    top_padding = padding[3] + graphic[4],
-                    right_padding = padding[4] + graphic[4],
-                    bottom_padding = padding[5] + graphic[4],
-                    graphical_set = graphic[2]
-                }
-            end
+    for _, margin in pairs({{"", 0, 0, 0, 0}, {"_marginTL", 4, 4, 0, 0}}) do
+        for _, padding in pairs({{"", 0, 0, 0, 0}, {"_paddingBR", 0, 0, 4, 4}}) do
+            defaultStyle["muppet_textbox" .. margin[1] .. padding[1] .. styleData.styleVersion] = {
+                type = "textbox_style",
+                left_margin = margin[2],
+                top_margin = margin[3],
+                right_margin = margin[4],
+                bottom_margin = margin[5],
+                left_padding = padding[2],
+                top_padding = padding[3],
+                right_padding = padding[4],
+                bottom_padding = padding[5]
+            }
         end
     end
 

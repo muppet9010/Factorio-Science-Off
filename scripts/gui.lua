@@ -294,16 +294,12 @@ Gui.CreateEndGameTextForPlayer = function(player)
             parent = player.gui.left,
             type = "frame",
             style = "muppet_frame_main_marginTL_paddingBR",
+            styling = {width = 400},
             children = {
                 {
-                    name = "end_game",
                     type = "flow",
                     direction = "vertical",
                     style = "muppet_flow_vertical_marginTL",
-                    styling = {
-                        width = 400
-                    },
-                    storeName = "end_game",
                     children = {
                         {
                             name = "end_game_title",
@@ -318,19 +314,46 @@ Gui.CreateEndGameTextForPlayer = function(player)
                             style = "muppet_label_text_medium"
                         },
                         {
+                            type = "line"
+                        },
+                        {
                             name = "end_game_info_message2",
                             type = "label",
                             caption = "self",
                             style = "muppet_label_text_medium"
                         },
                         {
-                            name = "get_force_usage_data",
-                            type = "button",
-                            caption = "self",
-                            registerClick = {
-                                actionName = "getPlayersForceUsageData"
+                            name = "force_usage_data",
+                            type = "frame",
+                            direction = "vertical",
+                            style = "muppet_frame_content_shadowSunken",
+                            storeName = "end_game",
+                            styling = {
+                                horizontally_stretchable = true,
+                                padding = 4,
+                                top_margin = 4,
+                                bottom_margin = 8
                             },
-                            style = "muppet_button_text_medium"
+                            children = {
+                                {
+                                    name = "force_usage_data",
+                                    type = "label",
+                                    caption = "self",
+                                    style = "muppet_label_text_small"
+                                },
+                                {
+                                    name = "get_force_usage_data",
+                                    type = "button",
+                                    caption = "self",
+                                    registerClick = {
+                                        actionName = "getPlayersForceUsageData"
+                                    },
+                                    style = "muppet_button_text_medium",
+                                    styling = {
+                                        top_margin = 4
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -347,14 +370,16 @@ Gui.GetPlayersForceUsageDataButtonClicked = function(event)
     GuiUtil.DestroyElementInPlayersReferenceStorage(playerIndex, "end_game", "data_export", "text-box")
     GuiUtil.AddElement(
         {
-            parent = GuiUtil.GetElementFromPlayersReferenceStorage(playerIndex, "end_game", "end_game", "flow"),
+            parent = GuiUtil.GetElementFromPlayersReferenceStorage(playerIndex, "end_game", "force_usage_data", "frame"),
             name = "data_export",
             type = "text-box",
             text = jsonData,
-            style = "muppet_textbox_content_shadowSunken",
+            style = "muppet_textbox",
             styling = {
-                height = 100,
-                width = 400
+                height = 88,
+                width = 362,
+                bottom_margin = 4,
+                right_margin = -2
             },
             attributes = {
                 word_wrap = true,
