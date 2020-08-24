@@ -3,6 +3,7 @@ local EventScheduler = require("utility/event-scheduler")
 --local Logging = require("utility/logging")
 local Interfaces = require("utility/interfaces")
 local Events = require("utility/events")
+local Utils = require("utility/utils")
 
 ScienceUsage.CreateGlobals = function()
     global.scienceUsage = global.scienceUsage or {}
@@ -43,6 +44,7 @@ ScienceUsage.OnLoad = function()
     Interfaces.RegisterInterface("ScienceUsage.GetUsageDataJsonForForceTable", ScienceUsage.GetUsageDataJsonForForceTable)
     Interfaces.RegisterInterface("ScienceUsage.GetCurrentTick", ScienceUsage.GetCurrentTick)
     Events.RegisterEvent("CheckNow")
+    Interfaces.RegisterInterface("ScienceUsage.GetAllForceTableForces", ScienceUsage.GetAllForceTableForces)
 end
 
 ScienceUsage.OnStartup = function()
@@ -124,6 +126,14 @@ end
 
 ScienceUsage.GetCurrentTick = function()
     return global.scienceUsage.currentTick
+end
+
+ScienceUsage.GetAllForceTableForces = function()
+    local forces = {}
+    for _, forceTable in pairs(global.scienceUsage.forces) do
+        forces[forceTable.id] = forceTable.force
+    end
+    return forces
 end
 
 return ScienceUsage

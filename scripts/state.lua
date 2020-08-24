@@ -22,7 +22,7 @@ State.GameFinished = function()
         surface.always_day = true
     end
     for _, player in pairs(game.connected_players) do
-        player.set_controller {type = defines.controllers.ghost}
+        player.set_controller {type = defines.controllers.god}
         player.spectator = true
     end
 end

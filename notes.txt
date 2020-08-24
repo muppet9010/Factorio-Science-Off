@@ -1,22 +1,7 @@
-Concept: Time limited race to complete the highest total value of research.
-
-+ Different packs have different values: rounded real costs: red 10, green 30, grey 60, blue 100, purple 340, yellow 380, white 800
-+ Try to do it on a production usage each second of science packs used. Every time a science pack is used add a coin to consumption data. Allows produciton graph to show science usage over time and total points (coins) over time.
-+ Score shown for each science type once used. Show used count and points (coins) value of used count, plus how much each is used. [PACK TYPE] (VALUE) x [USED COUNT] = [TOTAL VALUE]
-+ Have countdown timer to end GUI.
-
-
-+ Allow setting in startup settings to set a max time, at which point the game is "finished".
-+ "Finished" game sets game.speed to 0.01.
-+ When this occurs show an extra large score breakdown GUI on the centre of the screen. - not done as production graph hides it.
-+ The player can still load production stats to review coin/pack consumption over time.
-
-- Allow a way to export science data from a run and import it via command/mod setting to load ghost target and production data.
-
-- Change the finished game state to freeze labs, rather than the whole game speed.
+- Maybe show the target run science, time, points on an optiona shown GUI under the main one?
 
 - Made to support multiple forces on a map, but hardcoded to just use the default "player" one at present.
 
 - Copy Utils back to repo to catch anything missed.
 
-{"scienceUsedHistory":{"960":{"automation-science-pack":4},"1560":{"automation-science-pack":4}},"scienceUsedTotal":{"automation-science-pack":8},"pointsTotal":8,"endTimeTick":1560}
+{"scienceUsedHistory":{"1261":{"automation-science-pack":4},"1861":{"automation-science-pack":4}},"scienceUsedTotal":{"automation-science-pack":8},"pointsTotal":8,"endTimeTick":1861}

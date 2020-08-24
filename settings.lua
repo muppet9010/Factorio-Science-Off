@@ -15,6 +15,14 @@ data:extend(
             minimum_value = 0,
             setting_type = "startup",
             order = "1002"
+        },
+        {
+            name = "science_off-target_run_data",
+            type = "string-setting",
+            default_value = "",
+            allow_blank = true,
+            setting_type = "startup",
+            order = "1003"
         }
     }
 )

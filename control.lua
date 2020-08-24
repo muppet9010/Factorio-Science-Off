@@ -4,6 +4,7 @@ local Gui = require("scripts/gui")
 local TimeLimit = require("scripts/time_limit")
 local PointLimit = require("scripts/point_limit")
 local State = require("scripts/state")
+local TargetRunData = require("scripts/target_run_data")
 
 local function CreateGlobals()
     State.CreateGlobals()
@@ -11,6 +12,7 @@ local function CreateGlobals()
     TimeLimit.CreateGlobals()
     PointLimit.CreateGlobals()
     Gui.CreateGlobals()
+    TargetRunData.CreateGlobals()
 end
 
 local function OnLoad()
@@ -20,6 +22,7 @@ local function OnLoad()
     TimeLimit.OnLoad()
     PointLimit.OnLoad()
     Gui.OnLoad()
+    TargetRunData.OnLoad()
 end
 
 --local function OnSettingChanged(event)
@@ -37,6 +40,7 @@ local function OnStartup()
     TimeLimit.OnStartUp()
     PointLimit.OnStartUp()
     Gui.OnStartup()
+    TargetRunData.OnStartup()
 end
 
 script.on_init(OnStartup)

@@ -85,6 +85,7 @@ Gui.CreateScoreForPlayer = function(player)
                     type = "flow",
                     direction = "vertical",
                     style = "muppet_flow_vertical_marginTL",
+                    styling = {horizontally_stretchable = false},
                     children = {
                         {
                             name = "score_title",
@@ -144,7 +145,10 @@ Gui.CreateScoreForPlayer = function(player)
                             type = "frame",
                             direction = "vertical",
                             style = "muppet_frame_content_shadowSunken",
-                            styling = {top_margin = 2},
+                            styling = {
+                                top_margin = 2,
+                                horizontally_stretchable = true
+                            },
                             exclude = Interfaces.Call("TimeLimit.GetTicksRemaining") == nil and Interfaces.Call("PointLimit.GetPointLimit") == 0,
                             children = {
                                 {
@@ -355,7 +359,8 @@ Gui.GetPlayersForceUsageDataButtonClicked = function(event)
             attributes = {
                 word_wrap = true,
                 read_only = true
-            }
+            },
+            storeName = "end_game"
         }
     )
 end

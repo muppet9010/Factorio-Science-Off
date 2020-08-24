@@ -7,8 +7,8 @@ end
 CommonFunctions.UpdateTargetGraphicFromItsIcon = function(prototype)
     prototype.icons = {
         {
-            icon = "__core__/graphics/covered-chunk.png",
-            icon_size = 10,
+            icon = "__core__/graphics/green-circle.png",
+            icon_size = 25,
             icon_mipmaps = 0
         },
         {
