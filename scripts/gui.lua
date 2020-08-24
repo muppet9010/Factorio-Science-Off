@@ -22,6 +22,7 @@ Gui.OnLoad = function()
     Events.RegisterHandler("GameFinished", "Gui.ShowEndGameTextAllPlayers", Gui.ShowEndGameTextAllPlayers)
     GuiActionsClick.MonitorGuiClickActions()
     GuiActionsClick.LinkGuiClickActionNameToFunction("getPlayersForceUsageData", Gui.GetPlayersForceUsageDataButtonClicked)
+    Interfaces.RegisterInterface("Gui.UpdateScoreCurrentTimeAllPlayers", Gui.UpdateScoreCurrentTimeAllPlayers)
 end
 
 Gui.OnStartup = function()
@@ -92,42 +93,63 @@ Gui.CreateScoreForPlayer = function(player)
                             style = "muppet_label_heading_large_bold"
                         },
                         {
-                            type = "table",
-                            column_count = 2,
-                            style = "muppet_table_horizontalSpaced",
+                            type = "frame",
+                            direction = "vertical",
+                            style = "muppet_frame_content_shadowSunken",
                             children = {
                                 {
-                                    name = "score_points",
+                                    type = "table",
+                                    column_count = 2,
+                                    style = "muppet_table_horizontalSpaced",
+                                    children = {
+                                        {
+                                            name = "score_points",
+                                            type = "label",
+                                            caption = {"self", 0},
+                                            style = "muppet_label_text_large",
+                                            storeName = "score"
+                                        },
+                                        {
+                                            type = "sprite",
+                                            sprite = "item/coin",
+                                            style = "muppet_sprite_32",
+                                            styling = {
+                                                width = 20,
+                                                height = 20
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    name = "time_current",
                                     type = "label",
                                     caption = {"self", 0},
                                     style = "muppet_label_text_large",
                                     storeName = "score"
-                                },
-                                {
-                                    type = "sprite",
-                                    sprite = "item/coin",
-                                    style = "muppet_sprite_32",
-                                    styling = {
-                                        width = 20,
-                                        height = 20
-                                    }
                                 }
                             }
                         },
                         {
-                            name = "time_remaining",
-                            type = "label",
-                            caption = {"self", ""},
-                            style = "muppet_label_text_large",
-                            storeName = "score",
-                            exclude = Interfaces.Call("TimeLimit.GetTicksRemaining") == nil
-                        },
-                        {
-                            name = "point_target",
-                            type = "label",
-                            caption = {"self", Utils.DisplayNumberPretty(Interfaces.Call("PointLimit.GetPointLimit"))},
-                            style = "muppet_label_text_large",
-                            exclude = Interfaces.Call("PointLimit.GetPointLimit") == 0
+                            type = "frame",
+                            direction = "vertical",
+                            style = "muppet_frame_content_shadowSunken",
+                            children = {
+                                {
+                                    name = "time_remaining",
+                                    type = "label",
+                                    caption = {"self", ""},
+                                    style = "muppet_label_text_large",
+                                    storeName = "score",
+                                    exclude = Interfaces.Call("TimeLimit.GetTicksRemaining") == nil
+                                },
+                                {
+                                    name = "point_target",
+                                    type = "label",
+                                    caption = {"self", Utils.DisplayNumberPretty(Interfaces.Call("PointLimit.GetPointLimit"))},
+                                    style = "muppet_label_text_large",
+                                    exclude = Interfaces.Call("PointLimit.GetPointLimit") == 0
+                                }
+                            }
                         },
                         {
                             name = "sciences",
@@ -147,6 +169,7 @@ Gui.CreateScoreForPlayer = function(player)
     )
     Gui.UpdateScoreForPlayer(player)
     Gui.UpdateTimeRemainingPlayer(player, Interfaces.Call("TimeLimit.GetTicksRemaining"))
+    Gui.UpdateScoreCurrentTimeForPlayer(player, Interfaces.Call("ScienceUsage.GetCurrentTick"))
 end
 
 Gui.UpdateScoreForForcesPlayers = function(force)
@@ -207,6 +230,21 @@ Gui.UpdateScoreForPlayer = function(player)
     )
 end
 
+Gui.UpdateScoreCurrentTimeAllPlayers = function()
+    local currentTick = Interfaces.Call("ScienceUsage.GetCurrentTick")
+    for _, player in pairs(game.connected_players) do
+        Gui.UpdateScoreCurrentTimeForPlayer(player, currentTick)
+    end
+end
+
+Gui.UpdateScoreCurrentTimeForPlayer = function(player, currentTick)
+    local playerIndex = player.index
+    if not global.gui.playerScoreOpen[playerIndex] then
+        return
+    end
+    GuiUtil.UpdateElementFromPlayersReferenceStorage(playerIndex, "score", "time_current", "label", {caption = {"self", Utils.DisplayTimeOfTicks(currentTick, "hour", "second")}}, false)
+end
+
 Gui.OnLuaShortcut = function(event)
     local shortcutName = event.prototype_name
     if shortcutName == "science_off-score_toggle" then
@@ -215,7 +253,8 @@ Gui.OnLuaShortcut = function(event)
     end
 end
 
-Gui.UpdateTimeRemainingAllPlayers = function(remainingTicks)
+Gui.UpdateTimeRemainingAllPlayers = function()
+    local remainingTicks = Interfaces.Call("TimeLimit.GetTicksRemaining")
     for _, player in pairs(game.connected_players) do
         Gui.UpdateTimeRemainingPlayer(player, remainingTicks)
     end
@@ -223,10 +262,12 @@ end
 
 Gui.UpdateTimeRemainingPlayer = function(player, remainingTicks)
     local playerIndex = player.index
-    if not global.gui.playerScoreOpen[playerIndex] or Interfaces.Call("TimeLimit.GetTicksRemaining") == nil then
+    if not global.gui.playerScoreOpen[playerIndex] then
         return
     end
-    GuiUtil.UpdateElementFromPlayersReferenceStorage(playerIndex, "score", "time_remaining", "label", {caption = {"self", Utils.DisplayTimeOfTicks(remainingTicks, "hour", "second")}}, false)
+    if remainingTicks ~= nil then
+        GuiUtil.UpdateElementFromPlayersReferenceStorage(playerIndex, "score", "time_remaining", "label", {caption = {"self", Utils.DisplayTimeOfTicks(remainingTicks, "hour", "second")}}, false)
+    end
 end
 
 Gui.ShowEndGameTextAllPlayers = function()

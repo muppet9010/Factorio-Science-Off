@@ -2,11 +2,13 @@ local ScienceUsage = {}
 local EventScheduler = require("utility/event-scheduler")
 --local Logging = require("utility/logging")
 local Interfaces = require("utility/interfaces")
+local Events = require("utility/events")
 
 ScienceUsage.CreateGlobals = function()
     global.scienceUsage = global.scienceUsage or {}
     global.scienceUsage.forces = global.scienceUsage.forces or {} -- Has an array of forces with thier data within them. See ScienceUsage.CreateForceUsedTable() for structure.
     ScienceUsage.CreateForceUsedTable(game.forces.player)
+    global.scienceUsage.currentTick = global.scienceUsage.currentTick or 0
     global.scienceUsage.pointValues =
         global.scienceUsage.pointValues or
         {
@@ -39,6 +41,8 @@ ScienceUsage.OnLoad = function()
     Interfaces.RegisterInterface("ScienceUsage.GetPackPointValue", ScienceUsage.GetPackPointValue)
     Interfaces.RegisterInterface("ScienceUsage.GetAllForcesPointTotals", ScienceUsage.GetAllForcesPointTotals)
     Interfaces.RegisterInterface("ScienceUsage.GetUsageDataJsonForForceTable", ScienceUsage.GetUsageDataJsonForForceTable)
+    Interfaces.RegisterInterface("ScienceUsage.GetCurrentTick", ScienceUsage.GetCurrentTick)
+    Events.RegisterEvent("CheckNow")
 end
 
 ScienceUsage.OnStartup = function()
@@ -51,10 +55,13 @@ ScienceUsage.PollAllProductionStatistics = function(event)
     if Interfaces.Call("State.IsGameFinished") then
         return
     end
-    EventScheduler.ScheduleEvent(event.tick + 60, "ScienceUsage.PollAllProductionStatistics")
+    global.scienceUsage.currentTick = event.tick
+    Interfaces.Call("Gui.UpdateScoreCurrentTimeAllPlayers")
+    EventScheduler.ScheduleEvent(global.scienceUsage.currentTick + 60, "ScienceUsage.PollAllProductionStatistics")
     for _, forceTable in pairs(global.scienceUsage.forces) do
-        ScienceUsage.PollForceProducitonStatistics(forceTable, event.tick)
+        ScienceUsage.PollForceProducitonStatistics(forceTable, global.scienceUsage.currentTick)
     end
+    Events.RaiseEvent({name = "CheckNow"})
 end
 
 ScienceUsage.PollForceProducitonStatistics = function(forceTable, tick)
@@ -113,6 +120,10 @@ ScienceUsage.GetUsageDataJsonForForceTable = function(forceTable)
         endTimeTick = Interfaces.Call("TimeLimit.GetCurrentTime")
     }
     return game.table_to_json(object)
+end
+
+ScienceUsage.GetCurrentTick = function()
+    return global.scienceUsage.currentTick
 end
 
 return ScienceUsage

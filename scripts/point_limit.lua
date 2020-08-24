@@ -1,5 +1,4 @@
 local PointLimit = {}
-local EventScheduler = require("utility/event-scheduler")
 local Events = require("utility/events")
 local Interfaces = require("utility/interfaces")
 
@@ -9,19 +8,18 @@ PointLimit.CreateGlobals = function()
 end
 
 PointLimit.OnLoad = function()
-    EventScheduler.RegisterScheduledEventType("PointLimit.CheckPointLimit", PointLimit.CheckPointLimit)
     Interfaces.RegisterInterface("PointLimit.GetPointLimit", PointLimit.GetPointLimit)
+    if global.timeLimit.maxTicks > 0 then
+        Events.RegisterHandler("CheckNow", "PointLimit.CheckPointLimit", PointLimit.CheckPointLimit)
+    end
 end
 
 PointLimit.OnStartUp = function()
     global.pointLimit.maxPoints = settings.startup["science_off-points_target"].value
-    if global.pointLimit.maxPoints > 0 and not EventScheduler.IsEventScheduled("PointLimit.CheckPointLimit") then
-        EventScheduler.ScheduleEvent(game.tick + 60, "PointLimit.CheckPointLimit")
-    end
 end
 
 PointLimit.CheckPointLimit = function()
-    if Interfaces.Call("State.IsGameFinished") or global.pointLimit.maxPoints == 0 then
+    if Interfaces.Call("State.IsGameFinished") then
         return
     end
     for _, pointTotal in pairs(Interfaces.Call("ScienceUsage.GetAllForcesPointTotals")) do
@@ -30,7 +28,6 @@ PointLimit.CheckPointLimit = function()
             return
         end
     end
-    EventScheduler.ScheduleEvent(game.tick + 60, "PointLimit.CheckPointLimit")
 end
 
 PointLimit.GetPointLimit = function()
