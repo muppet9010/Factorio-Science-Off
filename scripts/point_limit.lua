@@ -16,6 +16,9 @@ end
 
 PointLimit.OnStartUp = function()
     global.pointLimit.maxPoints = settings.startup["science_off-points_target"].value
+    if global.pointLimit.maxPoints > 0 then
+        Events.RegisterHandler("CheckNow", "PointLimit.CheckPointLimit", PointLimit.CheckPointLimit)
+    end
 end
 
 PointLimit.CheckPointLimit = function()
