@@ -1,5 +1,6 @@
 # Factorio-Science-Off
 
+A competitive science usage mod that tracks pots used and awards points. Currently only supports 1 team (player) per server.
 
 
 Notes
