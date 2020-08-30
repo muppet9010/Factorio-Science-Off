@@ -9,5 +9,5 @@
     "dependencies": [
         "base >= 1.0"
     ],
-    "description": "Competitive science usage comptetition"
+    "description": "A competitive science usage mod that tracks science packs used and awards points for them."
 }

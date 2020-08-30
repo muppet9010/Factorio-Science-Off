@@ -1,0 +1,1 @@
+{"scienceUsedHistory":{"1261":{"automation-science-pack":4},"1861":{"automation-science-pack":4}},"scienceUsedTotal":{"automation-science-pack":8},"pointsTotal":8,"endTimeTick":1861}
