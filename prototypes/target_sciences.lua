@@ -10,6 +10,7 @@ for _, tool in pairs(data.raw["tool"]) do
         targetScience.localised_name = {"item-name.science_off-target_item", {"item-name." .. origName}}
         targetScience.localised_description = {"item-description.science_off-target_item", {"item-name." .. origName}}
         targetScience.flags = {"hidden"}
+        targetScience.subgroup = "science_off-target_counters"
         CommonFunctions.UpdateTargetGraphicFromItsIcon(targetScience)
         table.insert(targetSciences, targetScience)
     end

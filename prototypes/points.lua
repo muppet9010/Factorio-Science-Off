@@ -8,13 +8,14 @@ local points = {
     icon_size = 64,
     icon_mipmaps = 4,
     flags = {"hidden"},
-    subgroup = "science-pack",
+    subgroup = "science_off-counters",
     order = "y",
     stack_size = 1
 }
 
 local targetPoints = Utils.DeepCopy(points)
 targetPoints.name = targetPoints.name .. "-target"
+targetPoints.subgroup = "science_off-target_counters"
 CommonFunctions.UpdateTargetGraphicFromItsIcon(targetPoints)
 
 data:extend({points, targetPoints})
