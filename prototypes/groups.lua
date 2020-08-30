@@ -5,8 +5,8 @@ data:extend(
         {
             type = "item-group",
             name = "science_off",
-            icon = Constants.AssetModName .. "/graphics/group/science_off.png",
-            icon_size = 32,
+            icon = Constants.AssetModName .. "/thumbnail.png",
+            icon_size = 64,
             order = "zzz"
         },
         {
