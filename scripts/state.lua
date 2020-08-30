@@ -15,15 +15,23 @@ end
 
 State.GameFinished = function()
     global.state.finished = true
-    for _, surface in pairs(game.surfaces) do
-        for _, entity in pairs(surface.find_entities()) do
-            entity.active = false
+    local gameEndState = settings.global["science_off-game_end_state"].value
+    if gameEndState == "editor" then
+        game.tick_paused = true
+        for _, player in pairs(game.connected_players) do
+            player.set_controller {type = defines.controllers.editor}
         end
-        surface.always_day = true
-    end
-    for _, player in pairs(game.connected_players) do
-        player.set_controller {type = defines.controllers.god}
-        player.spectator = true
+    elseif gameEndState == "god" then
+        for _, surface in pairs(game.surfaces) do
+            for _, entity in pairs(surface.find_entities()) do
+                entity.active = false
+            end
+            surface.always_day = true
+        end
+        for _, player in pairs(game.connected_players) do
+            player.set_controller {type = defines.controllers.god}
+            player.spectator = true
+        end
     end
 end
 

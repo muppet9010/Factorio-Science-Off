@@ -26,3 +26,15 @@ data:extend(
         }
     }
 )
+data:extend(
+    {
+        {
+            name = "science_off-game_end_state",
+            type = "string-setting",
+            default_value = "editor",
+            allowed_values = {"editor", "god"},
+            setting_type = "runtime-global",
+            order = "1004"
+        }
+    }
+)
