@@ -44,6 +44,7 @@ ScienceUsage.OnLoad = function()
     Interfaces.RegisterInterface("ScienceUsage.GetCurrentTick", ScienceUsage.GetCurrentTick)
     Events.RegisterEvent("CheckNow")
     Interfaces.RegisterInterface("ScienceUsage.GetAllForceTableForces", ScienceUsage.GetAllForceTableForces)
+    Interfaces.RegisterInterface("ScienceUsage.GetAllPackPoints", ScienceUsage.GetAllPackPoints)
 end
 
 ScienceUsage.OnStartup = function()
@@ -62,7 +63,7 @@ ScienceUsage.PollAllProductionStatistics = function(event)
     for _, forceTable in pairs(global.scienceUsage.forces) do
         ScienceUsage.PollForceProducitonStatistics(forceTable, global.scienceUsage.currentTick)
     end
-    Events.RaiseEvent({name = "CheckNow"})
+    Events.RaiseEvent({name = "CheckNow", scienceUsageCurrentTick = global.scienceUsage.currentTick})
 end
 
 ScienceUsage.PollForceProducitonStatistics = function(forceTable, tick)
@@ -103,6 +104,10 @@ ScienceUsage.GetPackPointValue = function(packPrototype)
     else
         error("No science pack point value for pack type: " .. packPrototype)
     end
+end
+
+ScienceUsage.GetAllPackPoints = function()
+    return global.scienceUsage.pointValues
 end
 
 ScienceUsage.GetAllForcesPointTotals = function()

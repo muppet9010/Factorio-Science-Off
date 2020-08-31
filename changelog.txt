@@ -1,6 +1,20 @@
 ---------------------------------------------------------------------------------------------------
-Version: 1.0.0
+Version: 1.0.1
 Date: 2020-08-31
+  Features:
+    - Add option to have a timestamped points written to chat console for recording milestones and for streamer chat. Interval minutes controlled by mod setting.
+    - Add togglable GUI to show science pack point values in game.
+  Changes:
+  Bugfixes:
+    - Removed the conditional event registration to avoid future mod version change risks.
+  Info:
+    - Science pack point's value included in mod description.
+    - Default Time Limit setting value is now 120 minutes from 0.
+    - Time Limit setting title includes time unit is minutes, was already on the on-hover text.
+
+---------------------------------------------------------------------------------------------------
+Version: 1.0.0
+Date: 2020-08-30
   Features:
     - Initial Release
   Changes:

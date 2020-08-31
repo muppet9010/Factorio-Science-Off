@@ -9,20 +9,15 @@ end
 
 PointLimit.OnLoad = function()
     Interfaces.RegisterInterface("PointLimit.GetPointLimit", PointLimit.GetPointLimit)
-    if global.pointLimit.maxPoints > 0 then
-        Events.RegisterHandler("CheckNow", "PointLimit.CheckPointLimit", PointLimit.CheckPointLimit)
-    end
+    Events.RegisterHandler("CheckNow", "PointLimit.CheckPointLimit", PointLimit.CheckPointLimit)
 end
 
 PointLimit.OnStartUp = function()
     global.pointLimit.maxPoints = settings.startup["science_off-points_target"].value
-    if global.pointLimit.maxPoints > 0 then
-        Events.RegisterHandler("CheckNow", "PointLimit.CheckPointLimit", PointLimit.CheckPointLimit)
-    end
 end
 
 PointLimit.CheckPointLimit = function()
-    if Interfaces.Call("State.IsGameFinished") then
+    if global.pointLimit.maxPoints == 0 or Interfaces.Call("State.IsGameFinished") then
         return
     end
     for _, pointTotal in pairs(Interfaces.Call("ScienceUsage.GetAllForcesPointTotals")) do

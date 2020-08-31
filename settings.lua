@@ -3,7 +3,7 @@ data:extend(
         {
             name = "science_off-time_limit",
             type = "int-setting",
-            default_value = 0,
+            default_value = 120,
             minimum_value = 0,
             setting_type = "startup",
             order = "1001"
@@ -33,6 +33,14 @@ data:extend(
             type = "string-setting",
             default_value = "editor",
             allowed_values = {"editor", "god"},
+            setting_type = "runtime-global",
+            order = "1004"
+        },
+        {
+            name = "science_off-print_timestamped_score_interval",
+            type = "int-setting",
+            default_value = 10,
+            minimum_value = 0,
             setting_type = "runtime-global",
             order = "1004"
         }

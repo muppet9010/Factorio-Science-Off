@@ -5,6 +5,7 @@ local TimeLimit = require("scripts/time_limit")
 local PointLimit = require("scripts/point_limit")
 local State = require("scripts/state")
 local TargetRunData = require("scripts/target_run_data")
+local PrintScores = require("scripts/print_scores")
 
 local function CreateGlobals()
     State.CreateGlobals()
@@ -13,6 +14,7 @@ local function CreateGlobals()
     PointLimit.CreateGlobals()
     Gui.CreateGlobals()
     TargetRunData.CreateGlobals()
+    PrintScores.CreateGlobals()
 end
 
 local function OnLoad()
@@ -23,18 +25,17 @@ local function OnLoad()
     PointLimit.OnLoad()
     Gui.OnLoad()
     TargetRunData.OnLoad()
+    PrintScores.OnLoad()
 end
 
---local function OnSettingChanged(event)
---if event == nil or event.setting == "xxxxx" then
---	local x = tonumber(settings.global["xxxxx"].value)
---end
---end
+local function OnSettingChanged(event)
+    PrintScores.OnSettingChanged(event)
+end
 
 local function OnStartup()
     CreateGlobals()
     OnLoad()
-    --OnSettingChanged(nil)
+    OnSettingChanged(nil)
 
     ScienceUsage.OnStartup()
     TimeLimit.OnStartUp()
@@ -45,7 +46,7 @@ end
 
 script.on_init(OnStartup)
 script.on_configuration_changed(OnStartup)
---script.on_event(defines.events.on_runtime_mod_setting_changed, OnSettingChanged)
+script.on_event(defines.events.on_runtime_mod_setting_changed, OnSettingChanged)
 script.on_load(OnLoad)
 
 EventScheduler.RegisterScheduler()
