@@ -26,17 +26,17 @@ PrintScores.SetNextIntervalTick = function(currentTick)
 end
 
 PrintScores.CheckPrintInterval = function(event)
-    if event.tick ~= global.printScores.nextIntervalTick then
+    local scienceUsageCurrentTick = event.scienceUsageCurrentTick
+    if scienceUsageCurrentTick ~= global.printScores.nextIntervalTick then
         return
     end
-    PrintScores.SetNextIntervalTick(event.tick)
-    PrintScores.PrintTimestampedScore()
+    PrintScores.SetNextIntervalTick(scienceUsageCurrentTick)
+    PrintScores.PrintTimestampedScore(scienceUsageCurrentTick)
 end
 
-PrintScores.PrintTimestampedScore = function()
-    local currentTick = Interfaces.Call("ScienceUsage.GetCurrentTick")
+PrintScores.PrintTimestampedScore = function(scienceUsageCurrentTick)
     for force, pointsTotal in pairs(Interfaces.Call("ScienceUsage.GetAllForcesPointTotals")) do
-        force.print({"message.science_off-timestamped_points", Utils.DisplayTimeOfTicks(currentTick, "hour", "second"), pointsTotal})
+        force.print({"message.science_off-timestamped_points", Utils.DisplayTimeOfTicks(scienceUsageCurrentTick, "hour", "second"), pointsTotal})
     end
 end
 

@@ -14,7 +14,6 @@ end
 
 TimeLimit.OnStartUp = function()
     global.timeLimit.maxTicks = settings.startup["science_off-time_limit"].value * 3600 -- minutes to ticks
-    Events.RegisterHandler("CheckNow", "TimeLimit.CheckTimeLimit", TimeLimit.CheckTimeLimit)
 end
 
 TimeLimit.CheckTimeLimit = function()

@@ -62,7 +62,7 @@ ScienceUsage.PollAllProductionStatistics = function(event)
     for _, forceTable in pairs(global.scienceUsage.forces) do
         ScienceUsage.PollForceProducitonStatistics(forceTable, global.scienceUsage.currentTick)
     end
-    Events.RaiseEvent({name = "CheckNow"})
+    Events.RaiseEvent({name = "CheckNow", scienceUsageCurrentTick = global.scienceUsage.currentTick})
 end
 
 ScienceUsage.PollForceProducitonStatistics = function(forceTable, tick)
