@@ -10,6 +10,7 @@ Freatures
 - You can load previous play data and compete against it, with the target science packs and points shown in the production graph with a graph logo over them. This gives you a built in equivilent to time splits in speed runs. At the end of the run you will get the option to export this data for use in future runs. This exported data can be loaded prior to a run via the Target Run Data setting.
 - At the end of a run (time or points limit reached) the game will freeze and you can review your base and production graph. See the runtime settings for the 2 types of game freezing (Editor Mode or Spectator).
 - Option to have a timestamped points written to chat console for recording milestones and for streamer chat. Interval controlled by mod setting.
+- A togglable GUI to show the science pack points value.
 
 Science Pack Point Values
 =================
