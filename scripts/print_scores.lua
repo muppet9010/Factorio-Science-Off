@@ -17,9 +17,7 @@ PrintScores.OnSettingChanged = function(event)
     local currentTick = game.tick
     if event == nil or (event.setting_type == "runtime-global" and event.setting == "science_off-print_timestamped_score_interval") then
         global.printScores.intervalTick = tonumber(settings.global["science_off-print_timestamped_score_interval"].value) * 3600
-        if global.printScores.intervalTick > 0 then
-            PrintScores.SetNextIntervalTick(currentTick)
-        end
+        PrintScores.SetNextIntervalTick(currentTick)
     end
 end
 

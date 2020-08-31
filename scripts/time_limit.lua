@@ -9,20 +9,16 @@ end
 
 TimeLimit.OnLoad = function()
     Interfaces.RegisterInterface("TimeLimit.GetTicksRemaining", TimeLimit.GetTicksRemaining)
-    if global.timeLimit.maxTicks > 0 then
-        Events.RegisterHandler("CheckNow", "TimeLimit.CheckTimeLimit", TimeLimit.CheckTimeLimit)
-    end
+    Events.RegisterHandler("CheckNow", "TimeLimit.CheckTimeLimit", TimeLimit.CheckTimeLimit)
 end
 
 TimeLimit.OnStartUp = function()
     global.timeLimit.maxTicks = settings.startup["science_off-time_limit"].value * 3600 -- minutes to ticks
-    if global.timeLimit.maxTicks > 0 then
-        Events.RegisterHandler("CheckNow", "TimeLimit.CheckTimeLimit", TimeLimit.CheckTimeLimit)
-    end
+    Events.RegisterHandler("CheckNow", "TimeLimit.CheckTimeLimit", TimeLimit.CheckTimeLimit)
 end
 
 TimeLimit.CheckTimeLimit = function()
-    if Interfaces.Call("State.IsGameFinished") then
+    if global.timeLimit.maxTicks == 0 or Interfaces.Call("State.IsGameFinished") then
         return
     end
     local ticksRemaining = TimeLimit.GetTicksRemaining()
