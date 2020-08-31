@@ -35,6 +35,14 @@ data:extend(
             allowed_values = {"editor", "god"},
             setting_type = "runtime-global",
             order = "1004"
+        },
+        {
+            name = "science_off-print_timestamped_score_interval",
+            type = "int-setting",
+            default_value = 10,
+            minimum_value = 0,
+            setting_type = "runtime-global",
+            order = "1004"
         }
     }
 )

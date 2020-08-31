@@ -1,7 +1,6 @@
 TODO:
-    - Add the science pack point values to the mod description.
+    - remove the conditional event registration as it makes handling variation in globals much harder. just account for instant drop out features.
     - Add a way to see the point value of each science pack ingame.
-    - Add a setting that prints out the time and score to forces players chat.
 
 Ideas:
     - Maybe show the target run science, time, points on an optional GUI under the main one? So it can be raced in real time current total, plus on the production graph.
