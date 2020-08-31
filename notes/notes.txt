@@ -1,5 +1,4 @@
 TODO:
-    - Add a way to see the point value of each science pack ingame.
 
 Ideas:
     - Maybe show the target run science, time, points on an optional GUI under the main one? So it can be raced in real time current total, plus on the production graph.

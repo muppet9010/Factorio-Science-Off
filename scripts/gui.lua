@@ -10,6 +10,7 @@ local Gui = {}
 Gui.CreateGlobals = function()
     global.gui = global.gui or {}
     global.gui.playerScoreOpen = global.gui.playerScoreOpen or {}
+    global.gui.playerPackValueOpen = global.gui.playerPackValueOpen or {}
 end
 
 Gui.OnLoad = function()
@@ -32,15 +33,18 @@ end
 Gui.OnPlayerJoined = function(event)
     local playerIndex, player = event.player_index, game.get_player(event.player_index)
     global.gui.playerScoreOpen[playerIndex] = global.gui.playerScoreOpen[playerIndex] or true
+    global.gui.playerPackValueOpen[playerIndex] = global.gui.playerPackValueOpen[playerIndex] or false
     Gui.RecreatePlayer(player)
 end
 
 Gui.RecreatePlayer = function(player)
     GuiUtil.DestroyPlayersReferenceStorage(player.index, "score")
-    if not global.gui.playerScoreOpen[player.index] and not Interfaces.Call("State.IsGameFinished") then
-        return
+    if global.gui.playerScoreOpen[player.index] then
+        Gui.OpenScoreForPlayer(player)
     end
-    Gui.OpenScoreForPlayer(player)
+    if global.gui.playerPackValueOpen[player.index] then
+        Gui.OpenPackValueForPlayer(player)
+    end
     if Interfaces.Call("State.IsGameFinished") then
         Gui.CreateEndGameTextForPlayer(player)
     end
@@ -391,8 +395,89 @@ Gui.GetPlayersForceUsageDataButtonClicked = function(event)
     )
 end
 
+Gui.OpenPackValueForPlayer = function(player)
+    global.gui.playerPackValueOpen[player.index] = true
+    player.set_shortcut_toggled("science_off-score_value_toggle", true)
+    Gui.CreatePackValueForPlayer(player)
+end
+
+Gui.ClosePackValueForPlayer = function(player)
+    GuiUtil.DestroyPlayersReferenceStorage(player.index, "pack_value")
+    global.gui.playerPackValueOpen[player.index] = false
+    player.set_shortcut_toggled("science_off-score_value_toggle", false)
+end
+
 Gui.TogglePackValueForPlayer = function(player)
-    --TODO
+    if global.gui.playerPackValueOpen[player.index] then
+        Gui.ClosePackValueForPlayer(player)
+    else
+        Gui.OpenPackValueForPlayer(player)
+    end
+end
+
+Gui.CreatePackValueForPlayer = function(player)
+    local sciencePackValuesTableContents = {}
+    for packPrototypeName, pointValue in pairs(Interfaces.Call("ScienceUsage.GetAllPackPoints")) do
+        table.insert(
+            sciencePackValuesTableContents,
+            {
+                type = "sprite",
+                sprite = "item/" .. packPrototypeName,
+                style = "muppet_sprite_32",
+                styling = {
+                    width = 24,
+                    height = 24
+                }
+            }
+        )
+        table.insert(
+            sciencePackValuesTableContents,
+            {
+                type = "label",
+                style = "muppet_label_text_large",
+                caption = {"gui-caption.science_off-pack_value_entry-label", pointValue}
+            }
+        )
+    end
+    GuiUtil.AddElement(
+        {
+            parent = player.gui.left,
+            name = "packValue",
+            type = "frame",
+            style = "muppet_frame_main_marginTL_paddingBR",
+            styling = {horizontally_stretchable = false},
+            storeName = "pack_value",
+            children = {
+                {
+                    type = "flow",
+                    direction = "vertical",
+                    style = "muppet_flow_vertical_marginTL",
+                    children = {
+                        {
+                            name = "pack_value_title",
+                            type = "label",
+                            caption = "self",
+                            style = "muppet_label_heading_large_bold"
+                        },
+                        {
+                            type = "frame",
+                            direction = "vertical",
+                            style = "muppet_frame_content_shadowSunken",
+                            styling = {horizontally_stretchable = true},
+                            children = {
+                                {
+                                    type = "table",
+                                    column_count = 2,
+                                    style = "muppet_table_horizontalSpaced",
+                                    children = sciencePackValuesTableContents
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    )
 end
 
 return Gui
