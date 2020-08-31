@@ -254,8 +254,9 @@ end
 Gui.OnLuaShortcut = function(event)
     local shortcutName = event.prototype_name
     if shortcutName == "science_off-score_toggle" then
-        local player = game.get_player(event.player_index)
-        Gui.ToggleScoreForPlayer(player)
+        Gui.ToggleScoreForPlayer(game.get_player(event.player_index))
+    elseif shortcutName == "science_off-score_value_toggle" then
+        Gui.TogglePackValueForPlayer(game.get_player(event.player_index))
     end
 end
 
@@ -388,6 +389,10 @@ Gui.GetPlayersForceUsageDataButtonClicked = function(event)
             storeName = "end_game"
         }
     )
+end
+
+Gui.TogglePackValueForPlayer = function(player)
+    --TODO
 end
 
 return Gui

@@ -3,6 +3,7 @@ Version: 1.0.1
 Date: 2020-08-31
   Features:
     - Add option to have a timestamped points written to chat console for recording milestones and for streamer chat. Interval controlled by mod setting.
+    - Add togglable GUI to show science pack point values in game.
   Changes:
   Bugfixes:
     - Removed the conditional event registration to avoid future mod version change risks.
