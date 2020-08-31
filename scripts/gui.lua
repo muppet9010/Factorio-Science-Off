@@ -32,21 +32,26 @@ end
 
 Gui.OnPlayerJoined = function(event)
     local playerIndex, player = event.player_index, game.get_player(event.player_index)
-    global.gui.playerScoreOpen[playerIndex] = global.gui.playerScoreOpen[playerIndex] or true
-    global.gui.playerPackValueOpen[playerIndex] = global.gui.playerPackValueOpen[playerIndex] or false
+    if global.gui.playerScoreOpen[playerIndex] == nil then
+        global.gui.playerScoreOpen[playerIndex] = true
+    end
+    if global.gui.playerPackValueOpen[playerIndex] == nil then
+        global.gui.playerPackValueOpen[playerIndex] = false
+    end
     Gui.RecreatePlayer(player)
 end
 
 Gui.RecreatePlayer = function(player)
-    GuiUtil.DestroyPlayersReferenceStorage(player.index, "score")
     if global.gui.playerScoreOpen[player.index] then
+        Gui.CloseScoreForPlayer(player)
         Gui.OpenScoreForPlayer(player)
     end
     if global.gui.playerPackValueOpen[player.index] then
+        Gui.ClosePackValueForPlayer(player)
         Gui.OpenPackValueForPlayer(player)
     end
     if Interfaces.Call("State.IsGameFinished") then
-        Gui.CreateEndGameTextForPlayer(player)
+        Gui.ShowEndGameTextFoPlayer(player)
     end
 end
 
@@ -57,6 +62,9 @@ Gui.RecreateAllPlayers = function()
 end
 
 Gui.OpenScoreForPlayer = function(player)
+    if global.gui.playerScoreOpen[player.index] then
+        return
+    end
     global.gui.playerScoreOpen[player.index] = true
     player.set_shortcut_toggled("science_off-score_toggle", true)
     Gui.CreateScoreForPlayer(player)
@@ -288,18 +296,20 @@ Gui.ShowEndGameTextAllPlayers = function()
 end
 
 Gui.ShowEndGameTextFoPlayer = function(player)
-    Gui.CloseScoreForPlayer(player)
     Gui.OpenScoreForPlayer(player)
+    GuiUtil.DestroyPlayersReferenceStorage(player.index, "end_game")
     Gui.CreateEndGameTextForPlayer(player)
 end
 
 Gui.CreateEndGameTextForPlayer = function(player)
     GuiUtil.AddElement(
         {
+            name = "end_game",
             parent = player.gui.left,
             type = "frame",
             style = "muppet_frame_main_marginTL_paddingBR",
             styling = {width = 400},
+            storeName = "end_game",
             children = {
                 {
                     type = "flow",
@@ -396,6 +406,9 @@ Gui.GetPlayersForceUsageDataButtonClicked = function(event)
 end
 
 Gui.OpenPackValueForPlayer = function(player)
+    if global.gui.playerPackValueOpen[player.index] then
+        return
+    end
     global.gui.playerPackValueOpen[player.index] = true
     player.set_shortcut_toggled("science_off-score_value_toggle", true)
     Gui.CreatePackValueForPlayer(player)
@@ -442,7 +455,7 @@ Gui.CreatePackValueForPlayer = function(player)
     GuiUtil.AddElement(
         {
             parent = player.gui.left,
-            name = "packValue",
+            name = "pack_value",
             type = "frame",
             style = "muppet_frame_main_marginTL_paddingBR",
             styling = {horizontally_stretchable = false},
