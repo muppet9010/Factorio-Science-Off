@@ -1,5 +1,4 @@
 TODO:
-    - remove the conditional event registration as it makes handling variation in globals much harder. just account for instant drop out features.
     - Add a way to see the point value of each science pack ingame.
 
 Ideas:
