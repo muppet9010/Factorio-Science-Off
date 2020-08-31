@@ -1,6 +1,9 @@
+TODO:
+    - Add the science pack point values to the mod description.
+    - Add a way to see the point value of each science pack ingame.
+    - Add a setting that prints out the time and score to forces players chat.
+
 Ideas:
     - Maybe show the target run science, time, points on an optional GUI under the main one? So it can be raced in real time current total, plus on the production graph.
-    - Made to support multiple forces on a map, but hardcoded to just use the default "player" one at present.
-
-Graphics Sources:
-    - science_off group image taken from my mod: Wills Spaceship Repair > icons > all science
+    - Made to support multiple forces on a map, but hardcoded to just use the default "player" one at present. Would need to have a round lobby type thing to get in to teams, change all the settings, etc. Then at end of game you can view detials and reset.
+    - Add a spectator group that gets all teams stats on GUI and produciton tab. Maybe all teams should be able to see other teams in their produciton, plus the target.

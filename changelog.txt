@@ -1,6 +1,17 @@
 ---------------------------------------------------------------------------------------------------
-Version: 1.0.0
+Version: 1.0.1
 Date: 2020-08-31
+  Features:
+  Changes:
+  Bugfixes:
+  Info:
+    - Science pack point's value included in mod description.
+    - Default Time Limit setting value is now 120 minutes from 0.
+    - Time Limit setting name now includes its in minutes, was already on the on-hover text.
+
+---------------------------------------------------------------------------------------------------
+Version: 1.0.0
+Date: 2020-08-30
   Features:
     - Initial Release
   Changes:

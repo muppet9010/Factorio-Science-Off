@@ -5,10 +5,25 @@ A competitive science usage mod that tracks science packs used and awards points
 Freatures
 ============
 
-- A small GUI will show your progress and any time or point goal you are competing against.
+- A small GUI will show your progress of current science packs and points. Plus any time or point goal you are competing against.
 - Your progress in science packs and points can be seen in the production graph.
-- You can load Target Run Data from a previous play and compete against it, with the target science packs and points shown in the production graph with a graph logo over them. At the end of the run you will get the option to export this data for use in future runs.
+- You can load previous play data and compete against it, with the target science packs and points shown in the production graph with a graph logo over them. At the end of the run you will get the option to export this data for use in future runs. This exported data can be loaded prior to a run via the Target Run Data setting.
 - At the end of a run (time or points limit reached) the game will freeze and you can review your base and production graph. See the runtime settings for the 2 types of game freezing (Editor Mode or Spectator).
+
+Science Pack Point Values
+=================
+
+For every science pack used to do science you will be awarded points at the below rates. These rates are based on raw ingredient costs and craft time.
+
+Science Pack | Point Value
+------------ | -------------
+Automation Science | 1
+Logistic Science | 3
+Military Science | 6
+Chemical Science | 10
+Production Science | 34
+Utility Science | 38
+Space Science | 80
 
 
 Notes
