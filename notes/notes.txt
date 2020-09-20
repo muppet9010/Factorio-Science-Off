@@ -1,4 +1,7 @@
 TODO:
+	- Add a command that can be run at any point to get the current game run data as JSON.
+	- Disable rocket silo win condition as setting.
+	- Change the JSOn export data to use an alias index for the science pack types. Should make the JSON data much shorter. Needs to handle load run data from both.
 
 Ideas:
     - Maybe show the target run science, time, points on an optional GUI under the main one? So it can be raced in real time current total, plus on the production graph.
