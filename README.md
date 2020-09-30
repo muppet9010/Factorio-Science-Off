@@ -15,8 +15,8 @@ Features
 Science Pack Point Values
 =================
 
-For every science pack used to do science you will be awarded points at the below rates. These rates are based on raw ingredient costs and craft time.
-*The science packs usage is based on the consumption graph. Using productivity modules will score you less points per research as you consumed less packs. Chaining labs together with inserters can "lose" pack count due to a long standing bug/limitation/feature in Factorio and how it counts consumption data.*
+For every science pack used to do science you will be awarded points at the below rates. These rates are based on raw ingredient costs and craft time. The science packs usage is based on the consumption graph. So you can change research without any real loss of points.
+*Using productivity modules will score you less points per research as you consumed less packs.*
 
 Science Pack | Point Value
 ------------ | -------------
@@ -27,6 +27,12 @@ Chemical Science | 10
 Production Science | 34
 Utility Science | 38
 Space Science | 80
+
+Hints and Weird Factorio 'Features'
+=================
+
+- Chaining labs together with inserters can "lose" science packs counted due to a long standing bug/limitation/feature in Factorio and how it counts consumption data. Just do straight inserts in to a single lab and it will behave normally.
+- You can launch space science packs in a rocket and it will be counted as consumed because Factorio returns you fish for them. However, this is obviously very expensive compared to using it in a lab. Maybe edge cases when this is advantageous?
 
 Notes
 ===========
