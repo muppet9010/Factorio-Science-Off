@@ -1,13 +1,13 @@
 {
     "name": "science_off",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "title": "Science Off",
     "author": "Muppet9010",
     "contact": "",
     "homepage": "https://mods.factorio.com/mod/science_off",
-    "factorio_version": "1.0",
+    "factorio_version": "1.1",
     "dependencies": [
-        "base >= 1.0"
+        "base >= 1.1.21"
     ],
     "description": "A competitive science usage mod that tracks science packs used and awards points for them."
 }
